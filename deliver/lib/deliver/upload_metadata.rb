@@ -497,6 +497,8 @@ module Deliver
 
       localizations = version.get_app_store_version_localizations
 
+      return localizations unless options[:enable_new_languages]
+
       languages = (languages || []).reject { |lang| lang == "default" }
       locales_to_enable = languages - localizations.map(&:locale)
 

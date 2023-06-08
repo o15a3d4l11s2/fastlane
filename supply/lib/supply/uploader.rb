@@ -81,6 +81,8 @@ module Supply
           version_codes.to_s == ""
         end
 
+        enable_new_languages = Supply.config[:enable_new_languages]
+
         version_codes.each do |version_code|
           UI.user_error!("Could not find folder #{metadata_path}") unless File.directory?(metadata_path)
 
@@ -91,9 +93,11 @@ module Supply
           release_notes = []
           all_languages.each do |language|
             next if language.start_with?('.') # e.g. . or .. or hidden folders
-            UI.message("Preparing to upload for language '#{language}'...")
 
-            listing = client.listing_for_language(language)
+            listing = client.listing_for_language(language, enable_new_languages)
+            next if listing.nil?
+
+            UI.message("Preparing to upload for language '#{language}'...")
 
             upload_metadata(language, listing) unless Supply.config[:skip_upload_metadata]
             upload_images(language) unless Supply.config[:skip_upload_images]
@@ -273,7 +277,7 @@ module Supply
         UI.message("Uploading image file #{path}...")
         client.upload_image(image_path: File.expand_path(path),
                             image_type: image_type,
-                              language: language)
+                            language: language)
       end
     end
 
@@ -289,7 +293,7 @@ module Supply
           UI.message("Uploading screenshot #{path}...")
           client.upload_image(image_path: File.expand_path(path),
                               image_type: screenshot_type,
-                                language: language)
+                              language: language)
         end
       end
     end
@@ -485,5 +489,6 @@ module Supply
       end
     end
   end
+
   # rubocop:enable Metrics/ClassLength
 end

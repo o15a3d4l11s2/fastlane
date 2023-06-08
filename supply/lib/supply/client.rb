@@ -224,7 +224,7 @@ module Supply
     end
 
     # Returns the listing for the given language filled with the current values if it already exists
-    def listing_for_language(language)
+    def listing_for_language(language, create_new_listing)
       ensure_active_edit!
 
       begin
@@ -236,7 +236,8 @@ module Supply
 
         return Listing.new(self, language, result)
       rescue Google::Apis::ClientError => e
-        return Listing.new(self, language) if e.status_code == 404 # create a new empty listing
+        return nil unless create_new_listing
+        return Listing.new(self, language) if e.status_code == 404# create a new empty listing
         raise
       end
     end
