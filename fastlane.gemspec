@@ -26,32 +26,32 @@ Gem::Specification.new do |spec|
   spec.name          = "fastlane"
   spec.version       = Fastlane::VERSION
   # list of authors is regenerated and resorted on each release
-  spec.authors       = ["Iulian Onofrei",
-                        "Josh Holtz",
-                        "Fumiya Nakamura",
-                        "Olivier Halligon",
-                        "Maksym Grebenets",
-                        "Kohki Miki",
-                        "Jimmy Dee",
-                        "Jan Piotrowski",
-                        "Andrew McBurney",
-                        "Aaron Brager",
-                        "Helmut Januschka",
-                        "Matthew Ellis",
-                        "Luka Mirosevic",
-                        "Max Ott",
-                        "Stefan Natchev",
-                        "Jérôme Lacoste",
+  spec.authors       = ["Fumiya Nakamura",
                         "Felix Krause",
+                        "Stefan Natchev",
+                        "Roger Oba",
+                        "Satoshi Namai",
+                        "Josh Holtz",
+                        "Danielle Tomlinson",
+                        "Manu Wallner",
+                        "Andrew McBurney",
+                        "Kohki Miki",
+                        "Olivier Halligon",
+                        "Aaron Brager",
+                        "Jan Piotrowski",
+                        "Maksym Grebenets",
+                        "Daniel Jankowski",
+                        "Luka Mirosevic",
+                        "Jimmy Dee",
                         "Jorge Revuelta H",
+                        "Manish Rathi",
+                        "Matthew Ellis",
+                        "Helmut Januschka",
+                        "Max Ott",
+                        "Jérôme Lacoste",
                         "Joshua Liebowitz",
                         "Łukasz Grabowski",
-                        "Satoshi Namai",
-                        "Daniel Jankowski",
-                        "Manu Wallner",
-                        "Danielle Tomlinson",
-                        "Roger Oba",
-                        "Manish Rathi"]
+                        "Iulian Onofrei"]
 
   spec.email         = ["fastlane@krausefx.com"]
   spec.summary       = Fastlane::DESCRIPTION
@@ -116,7 +116,7 @@ Gem::Specification.new do |spec|
   # Development only
   spec.add_development_dependency('climate_control', '~> 0.2.0')
   spec.add_development_dependency('coveralls', '~> 0.8.13')
-  spec.add_development_dependency('fakefs', '~> 1.2')
+  spec.add_development_dependency('fakefs', '1.8') # 1.9+ requires Ruby >=2.7, while fastlane uses a `required_ruby_version` of `>= 2.6``
   spec.add_development_dependency('pry-byebug')
   spec.add_development_dependency('pry-rescue')
   spec.add_development_dependency('pry-stack_explorer')
