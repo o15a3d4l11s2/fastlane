@@ -202,6 +202,9 @@ def convert_image_resource(path)
   puts("Updating and trimming image file '#{path}'")
   image = MiniMagick::Image.open(path)
   image.combine_options do |co|
+    if path.include?('Slate')
+      co.rotate(90)
+    end
     co.fuzz("90%") # color dissimilarity threshold to get all shadows, see https://github.com/fastlane/fastlane/pull/14199
     co.trim("+repage") # `+repage` removes meta-data
   end
