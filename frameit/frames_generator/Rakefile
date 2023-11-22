@@ -23,6 +23,8 @@ DEVICES_TO_SKIP = [
 # longer colors (more than one word) must be in the beginning
 DEVICE_COLORS = [
   "Space Gray",
+  "Space Black",
+  "Deep Purple",
   "Rose Gold",
   "Jet Black",
   "Matte Black",
@@ -180,6 +182,7 @@ def sanitize_filename(filename)
       .gsub('Grey', 'Gray') # some Apple devices have "Grey" instead of "Gray" color -> unify
       .gsub(' - Portrait', '') # iPads Pro include Portrait and Landscape - we just need Portrait; Landscape filtered via DEVICES_TO_SKIP
       .gsub(' - ', ' ') # Google Pixel device names are separated from their colors by a dash -> remove
+      .gsub(' — ', ' ')
       .gsub('Note10', 'Note 10') # Samsung Galaxy Note 10 is missing a space in "Note10"
       .gsub('Mi Mix Alpha Front', 'Mi Mix Alpha')) # Xiaomi Mi Mix Alpha contains the words "Front", "Back" and "Side" => back and side are filtered via DEVICES_TO_SKIP, "Front" removed from the name here
 end
