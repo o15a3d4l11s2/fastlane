@@ -1,4 +1,3 @@
-
 require 'colored'
 require 'mini_magick'
 require 'json'
@@ -55,6 +54,25 @@ DEVICE_COLORS = [
   "Aura Red",
   "Aura White",
   "Aura Blue",
+  "Cloudy White",
+  "Cloud Blue",
+  "Cloud Pink",
+  "Cosmic Gray",
+  "Cosmic Black",
+  "Sorta Sage",
+  "Black and White",
+  "Kinda Blue",
+  "Quite Black",
+  "Really Blue",
+  "Very Silver",
+  "Sky Blue",
+  "Midnight",
+  "Starlight",
+  "Graphite",
+  "Sierra",
+  "Pacific",
+  "Violet",
+  "Golden",
   "Black",
   "White",
   "Gold",
@@ -72,8 +90,8 @@ DEVICE_COLORS = [
 
 # The versions / renaming scheme should be updated in case FB updates iPads
 IPAD_PRO_12_9_VERSION = "4th generation"
-IPAD_AIR_VERSION = "2019"
-IPAD_MINI_VERSION = "2019"
+IPAD_AIR_VERSION = "2020"
+IPAD_MINI_VERSION = "2020"
 IPAD_RENAMING_SCHEME = {
   'iPad Pro 11' => 'iPad Pro (11-inch)',
   'iPad Pro 13' => "iPad Pro (12.9-inch) (#{IPAD_PRO_12_9_VERSION})",
@@ -118,7 +136,8 @@ task(:generate_device_frames) do
     output_file_path = File.join(output, basename)
     sanitized_basename = sanitize_filename(basename)
     sanitized_file_path = File.join(output, sanitized_basename)
-    mv(output_file_path, sanitized_file_path) unless output_file_path == sanitized_file_path
+    mv(output_file_path, sanitized_file_path) unless output_file_path.downcase == sanitized_file_path.downcase
+    File.rename(output_file_path, sanitized_file_path) if output_file_path.downcase == sanitized_file_path.downcase && output_file_path != sanitized_file_path
     convert_image_resource(sanitized_file_path)
     image_assets << sanitized_basename
 
@@ -178,13 +197,22 @@ end
 
 # Facebook's device naming is inconsistent. This method fixes the file names.
 def sanitize_filename(filename)
-  perform_ipad_renaming(filename
+  perform_ipad_renaming(
+    filename
       .gsub('Grey', 'Gray') # some Apple devices have "Grey" instead of "Gray" color -> unify
       .gsub(' - Portrait', '') # iPads Pro include Portrait and Landscape - we just need Portrait; Landscape filtered via DEVICES_TO_SKIP
+      .gsub('Portrait', '')
       .gsub(' - ', ' ') # Google Pixel device names are separated from their colors by a dash -> remove
       .gsub(' — ', ' ')
+      .gsub(' – ', ' ')
+      .gsub(' ', ' ')
+      .gsub('Utra', 'Ultra')
+      .gsub('PIxel', 'Pixel')
+      .gsub('(PRODUCT)RED', 'Red')
+      .gsub('(PRODUCT)Red', 'Red')
       .gsub('Note10', 'Note 10') # Samsung Galaxy Note 10 is missing a space in "Note10"
-      .gsub('Mi Mix Alpha Front', 'Mi Mix Alpha')) # Xiaomi Mi Mix Alpha contains the words "Front", "Back" and "Side" => back and side are filtered via DEVICES_TO_SKIP, "Front" removed from the name here
+      .gsub('Mi Mix Alpha Front', 'Mi Mix Alpha') # Xiaomi Mi Mix Alpha contains the words "Front", "Back" and "Side" => back and side are filtered via DEVICES_TO_SKIP, "Front" removed from the name here
+  )
 end
 
 # Facebook doesn't include versions in iPad files - this function makes sure the correct versions are added
