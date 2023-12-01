@@ -210,6 +210,8 @@ def sanitize_filename(filename)
       .gsub('PIxel', 'Pixel')
       .gsub('(PRODUCT)RED', 'Red')
       .gsub('(PRODUCT)Red', 'Red')
+      .gsub('Apple iPhone', 'iPhone').gsub('iPhone', 'Apple iPhone')
+      .gsub('Apple iPad', 'iPad').gsub('iPad', 'Apple iPad')
       .gsub('Note10', 'Note 10') # Samsung Galaxy Note 10 is missing a space in "Note10"
       .gsub('Mi Mix Alpha Front', 'Mi Mix Alpha') # Xiaomi Mi Mix Alpha contains the words "Front", "Back" and "Side" => back and side are filtered via DEVICES_TO_SKIP, "Front" removed from the name here
   )
