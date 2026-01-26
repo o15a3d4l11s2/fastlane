@@ -329,6 +329,12 @@ module Pilot
                                      env_name: "PILOT_DISTRIBUTE_EXTERNAL",
                                      description: "Send the build for a beta review",
                                      type: Boolean,
+                                     default_value: true),
+        FastlaneCore::ConfigItem.new(key: :enable_new_languages,
+                                     env_name: "PILOT_ENABLE_NEW_LANGUAGES",
+                                     description: "Enable new languages based on metadata",
+                                     type: Boolean,
+                                     optional: true,
                                      default_value: true)
       ]
     end
